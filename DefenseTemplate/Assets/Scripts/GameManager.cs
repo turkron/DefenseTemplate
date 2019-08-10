@@ -7,6 +7,7 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] Mobs;
     public GameObject[] SpawnedMobs;
+    public GameObject[] PlayerMobs;
     public GameObject[] Waves;
     public GameObject SpawnLocation;
     public GameObject PauseScreen;
@@ -134,16 +135,17 @@ public class GameManager : MonoBehaviour
         //return
         //else
         //start buildPhase.
+        PlayerMobs = GameObject.FindGameObjectsWithTag("Player");
         SpawnedMobs = GameObject.FindGameObjectsWithTag("Hostile");
         if (SpawnedMobs.Length != 0)
         {
             return;
         }
-        else if (Player.Health <= 0)
+        else if (Player.Health <= 0 || currentWave <= Waves.Length)
         {
             Debug.Log("startGameOver");
             gameMode = "isComplete";
-        }
+        } 
         else
         {
             Debug.Log("startingBuildPhase");

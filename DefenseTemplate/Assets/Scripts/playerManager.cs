@@ -62,7 +62,6 @@ public class playerManager : MonoBehaviour
             currentCD--;
             if (currentCD <= 0)
             {
-                Debug.Log("shooting target" + gunCooldown + currentCD);
                 readyToFire = true;
                 currentCD = gunCooldown;
             }
@@ -75,7 +74,7 @@ public class playerManager : MonoBehaviour
         
     }
 
-    void TakeDamage(int DamageToTake)
+    public void TakeDamage(int DamageToTake)
     {
         health -= DamageToTake;
         if(health <= 0)Die();
@@ -83,7 +82,7 @@ public class playerManager : MonoBehaviour
 
     void Die()
     {
-        Destroy(this);
+        Destroy(this.gameObject);
     }
 
     void ShootTarget()
@@ -94,7 +93,7 @@ public class playerManager : MonoBehaviour
         if (flashTimer == flashCap)
         {
             lr.SetPosition(1, transform.InverseTransformPoint(target.transform.position));
-            //target.GetComponent<EnemyState>().takeDamage(AttackDamage);
+            target.GetComponent<EnemyState>().TakeDamage(AttackDamage);
         }
         flashTimer--;
         if(flashTimer <= 0)
@@ -106,18 +105,27 @@ public class playerManager : MonoBehaviour
 
     GameObject GetObjectsInRadius()
     {
-        GameObject mobInRange = null;
         //cycle list of mobs spawned then take the nearest within range and return it. 
-        foreach (GameObject mob in gameManager.SpawnedMobs) 
+        GameObject[] mobs = gameManager.SpawnedMobs;
+        GameObject closestMob = null;
+        float closestMobDist = 999999999999f;
+
+        for (int index = 0; index<mobs.Length; index ++) 
         {
-            float distanceSqr = (transform.position - mob.transform.position).sqrMagnitude;
-            if (distanceSqr < rangeSqr) {
-                mobInRange = mob;
-                break;
+            if (mobs[index] != null) {
+                float distanceSqr = (transform.position - mobs[index].transform.position).sqrMagnitude;
+                if (distanceSqr < rangeSqr)
+                {
+                    if(distanceSqr < closestMobDist)
+                    {
+                        closestMob = mobs[index];
+                        closestMobDist = distanceSqr;
+                    }
+                }
             }
-                
+            
         }
-        return mobInRange;
+        return closestMob;
     }
 
 }
