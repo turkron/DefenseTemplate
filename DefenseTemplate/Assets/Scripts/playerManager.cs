@@ -17,6 +17,7 @@ public class playerManager : MonoBehaviour
     public int flashTimer = 5;
     public int flashCap = 5;
     public bool readyToFire = false;
+    public GameObject parentBuildSite = null;
 
     // Start is called before the first frame update
     void Start()
@@ -24,6 +25,7 @@ public class playerManager : MonoBehaviour
         gameManager = GameObject.Find("MainCamera").GetComponent<GameManager>();
         lr = this.gameObject.GetComponent<LineRenderer>();
         currentCD = gunCooldown;
+        
     }
 
     // Update is called once per frame

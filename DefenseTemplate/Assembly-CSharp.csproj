@@ -54,11 +54,15 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\AudioClipPlayer.cs" />
+     <Compile Include="Assets\Scripts\builderHelper.cs" />
      <Compile Include="Assets\Scripts\controlManager.cs" />
      <Compile Include="Assets\Scripts\EnemyState.cs" />
      <Compile Include="Assets\Scripts\GameManager.cs" />
+     <Compile Include="Assets\Scripts\mainGameUi.cs" />
      <Compile Include="Assets\Scripts\playerManager.cs" />
+     <Compile Include="Assets\Scripts\selectionManager.cs" />
      <Compile Include="Assets\Scripts\setEnemyState.cs" />
+     <Compile Include="Assets\siteInventory.cs" />
  <Reference Include="Unity.TextMeshPro.Editor">
  <HintPath>C:/Users/Desktop/Documents/DefenseTemplate/DefenseTemplate/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
  </Reference>

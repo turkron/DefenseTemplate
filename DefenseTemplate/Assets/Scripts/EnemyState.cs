@@ -37,8 +37,8 @@ public class EnemyState : MonoBehaviour
     //select a target from the list of avliable ones at random.
     void FindTarget()
     {
-        if(gameManager.PlayerMobs.Length == 0) return;
-        if(Target == null)Target = gameManager.PlayerMobs[UnityEngine.Random.Range(0,gameManager.PlayerMobs.Length)]; else HuntTarget();
+        if(gameManager.PlayerMobs.Count == 0) return;
+        if(Target == null)Target = gameManager.PlayerMobs[UnityEngine.Random.Range(0,gameManager.PlayerMobs.Count)]; else HuntTarget();
     }
 
     //move towards the target using pathfidning

@@ -7,14 +7,16 @@ public class GameManager : MonoBehaviour
 
     public GameObject[] Mobs;
     public GameObject[] SpawnedMobs;
-    public GameObject[] PlayerMobs;
+    public List<GameObject> PlayerMobs = new List<GameObject>();
     public GameObject[] Waves;
     public GameObject SpawnLocation;
     public GameObject PauseScreen;
     public GameObject WinScreen;
     public GameObject LoseScreen;
-    private playerManager Player;
-
+    public GameObject MainGameScreen;
+    private int currency = 100;
+    public int Currency { get => currency; }
+    public void DeductCurrency(int value) { currency -= value; }
     public string GameMode { get => gameMode; set => gameMode = value; }
     public float BuildTimeDuration { get => buildTimeDuration; set => buildTimeDuration = value; }
 
@@ -23,7 +25,11 @@ public class GameManager : MonoBehaviour
     private string gameMode = "introPhase";
     private bool gameIsPaused = false;
     public float introTimer = 5.0f;
-    public int currentWave = 0;
+    private int currentWave = 0;
+    public int CurrentWave { get => currentWave; }
+    private string waveInfo = "Na";
+    public string WaveInfo { get => waveInfo; }
+
 
     private void showUIComponent(GameObject UIElement, bool show)
     {
@@ -37,7 +43,6 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Player = GameObject.FindGameObjectWithTag("Player").GetComponent<playerManager>();
         SpawnLocation = GameObject.FindGameObjectWithTag("SpawnLocation");
     }
 
@@ -99,6 +104,11 @@ public class GameManager : MonoBehaviour
             introTimer -= Time.deltaTime;
             return;
         }
+        if(PlayerMobs.Count == 0)
+        {
+            Debug.Log("please build your starting item");
+            return;
+        }
         gameMode = "startBuildPhase";
         Debug.Log(gameMode);
     }
@@ -135,13 +145,13 @@ public class GameManager : MonoBehaviour
         //return
         //else
         //start buildPhase.
-        PlayerMobs = GameObject.FindGameObjectsWithTag("Player");
+        PlayerMobs = new List<GameObject>(GameObject.FindGameObjectsWithTag("Player")) ;
         SpawnedMobs = GameObject.FindGameObjectsWithTag("Hostile");
         if (SpawnedMobs.Length != 0)
         {
             return;
         }
-        else if (Player.Health <= 0 || currentWave <= Waves.Length)
+        else if (PlayerMobs.Count == 0 || currentWave <= Waves.Length)
         {
             Debug.Log("startGameOver");
             gameMode = "isComplete";
@@ -156,7 +166,7 @@ public class GameManager : MonoBehaviour
     {
         //get the health of the player and see if its less or equal to 0;
         //return correct game screen;
-        bool winState = Player.Health >= 0;
+        bool winState = PlayerMobs.Count == 0;
         showUIComponent(LoseScreen, !winState);
         showUIComponent(WinScreen, winState);
     }
